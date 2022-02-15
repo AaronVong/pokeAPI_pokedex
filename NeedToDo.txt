@@ -1,0 +1,2 @@
+1. Logic để lấy extra condition cho condition
+2. thay đổi logic của getChainData, khi evolves_to có nhiều hơn 1 phần tử

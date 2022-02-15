@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Pokedex from "./components/poekdex/Pokedex";
+import PokedexPanel from "./components/poekdex/pokedexPanel/PokedexPanel";
+import { fetchPokemonList } from "./redux/actions/PokemonAction";
+import { connect } from "react-redux";
+import HrTag from "./components/ultites/HrTag";
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadingResources: false,
+    };
+  }
+  componentDidMount() {
+    this.props.fetchPokemonList(null, { offset: 0, limit: 6 });
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  render() {
+    return (
+      <div className="w-full h-full p-1">
+        <h1 className="text-5xl text-center py-2 font-light">
+          Pokedex with PokeAPI
+        </h1>
+        <HrTag />
+        <div className="w-full min-h-max">
+          <PokedexPanel />
+        </div>
+        <div className="w-full">
+          <h3 className="text-center font-medium text-3xl py-2">Pokedex</h3>
+          <HrTag />
+          <Pokedex />
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  pokemons: state.pokemons.pokemonList,
+  pokemonResources: state.pokemons.resource,
+});
+export default connect(mapStateToProps, { fetchPokemonList })(App);
