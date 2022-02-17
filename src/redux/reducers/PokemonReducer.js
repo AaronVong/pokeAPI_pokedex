@@ -51,10 +51,6 @@ export default function pokemonReducer(state = initState, action) {
       };
     case ActionTypes.ADD_TO_SEARCH_HISTORY: {
       const key = action.payload.pokemon.name;
-      if (state.searchHistory[key])
-        return {
-          ...state,
-        };
       return {
         ...state,
         searchHistory: {

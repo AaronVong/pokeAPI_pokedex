@@ -1,9 +1,10 @@
-import React from "react";
+import React, { lazy } from "react";
 import NavBar from "./infoPanel/NavBar";
 import PokeStats from "./pokemonDetails/PokeStats";
 import { connect } from "react-redux";
 import PokeEvols from "./pokemonDetails/PokeEvols";
 import NotFound from "../../ultites/NotFound";
+import Image from "../../ultites/Image";
 const TabName = {
   STATS: "STATUS",
   MOVES: "MOVES",
@@ -20,9 +21,17 @@ class RightSide extends React.Component {
     };
   }
 
+  componentDidUpdate(preProps, preState) {
+    if (this.props.pokemonDetail == null || preProps.pokemonDetail == null)
+      return;
+    if (preProps.pokemonDetail.id != this.props.pokemonDetail.id) {
+      this.setState({ tabName: TabName.STATS });
+    }
+  }
   tabsSwitch = (e) => {
-    if (!this.props.pokemonDetail) return;
-    this.setState({ tabName: e.currentTarget.name });
+    const tabName = e.currentTarget.name;
+    if (!this.props.pokemonDetail && tabName != TabName.WEAK_STRONG) return;
+    this.setState({ tabName });
   };
   render() {
     const tab = () => {
@@ -36,7 +45,22 @@ class RightSide extends React.Component {
         case TabName.MOVES:
           return <NotFound />;
         case TabName.WEAK_STRONG:
-          return <NotFound />;
+          return (
+            <div className="w-full flex flex-col justify-center items-center gap-2 py-1">
+              <div className="text-center">
+                <a
+                  className="px-2 py-1 bg-sky-400 text-white hover:bg-sky-500 rounded-xl"
+                  target="_blank"
+                  href="images/typechart.png"
+                >
+                  Big size
+                </a>
+              </div>
+              <div className="w-4/6">
+                <Image url={"images/typechart.png"} lazy={false} />
+              </div>
+            </div>
+          );
         default:
           return <PokeStats />;
       }
@@ -49,7 +73,11 @@ class RightSide extends React.Component {
             activeTab={this.state.tabName}
           />
         </TabNameContext.Provider>
-        <div className="w-full">{this.props.pokemonDetail && tab()}</div>
+        <div className="w-full">
+          {this.props.pokemonDetail || this.state.tabName == TabName.WEAK_STRONG
+            ? tab()
+            : ""}
+        </div>
       </div>
     );
   }

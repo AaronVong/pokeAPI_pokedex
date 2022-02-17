@@ -21,12 +21,6 @@ export default function PokeEvols(props) {
               "-",
               " "
             )}
-            extraCondition={
-              pokemon.evolution_details[0].min_level ||
-              pokemon.evolution_details[0].item
-                ? pokemon.evolution_details[0].item.name
-                : ""
-            }
           />
           <PokeCard data={pokemon.pokemon} customStyle={customStyle} />
         </Fragment>
@@ -34,7 +28,7 @@ export default function PokeEvols(props) {
     }
   });
   return (
-    <div className="w-full py-3 flex flex-col items-center justify-around lg:flex-row lg:justify-evenly lg:items-center">
+    <div className="w-full py-3 flex flex-col items-center justify-around lg:flex-row lg:justify-evenly lg:items-center xl:flex-wrap">
       {evolvesList}
     </div>
   );

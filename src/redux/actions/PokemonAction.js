@@ -73,10 +73,12 @@ export function searchPokemon(string) {
             pokemon,
           },
         });
-        dispatch({
-          type: ActionTypes.ADD_TO_SEARCH_HISTORY,
-          payload: { pokemon },
-        });
+        if (!getState().pokemons.searchHistory[pokemon.name]) {
+          dispatch({
+            type: ActionTypes.ADD_TO_SEARCH_HISTORY,
+            payload: { pokemon },
+          });
+        }
       } catch (error) {
         const { data: message } = error.response;
         dispatch({
@@ -94,46 +96,32 @@ export function searchPokemon(string) {
 }
 
 export function getPokemonDetail(id) {
-  // this only get detail of pokemon from fetched data in pokedex or searching result
+  // this only get detail of pokemon from fetched data in pokedex (pokemonList) or searching result (PokemonDetail)
   return async function (dispatch, getState) {
     const state = getState();
-    const pokeList = [...state.pokemons.pokemonList];
-    const pokemon = { ...state.pokemons.pokemon };
-    let foundPokemon = null;
-    // get pokemon detail data
-    if (pokemon && pokemon["id"] == id) {
-      foundPokemon = pokemon;
-    } else {
-      for (let i = 0; i < pokeList.length; i++) {
-        if (pokeList[i].id == id) {
-          foundPokemon = pokeList[i];
-          break;
-        }
-      }
-    }
+    let foundPokemon = await getPokemon(id);
     dispatch({
       type: ActionTypes.GET_POKEMON_DETAILS,
       payload: { pokemon: foundPokemon },
     });
-    if (foundPokemon) {
-      const isPokemonInChain = state.pokemons.evolChains.find(
-        (val) => val.pokemon.name == foundPokemon.name
-      );
-      if (isPokemonInChain) return;
-      const chainData = await getEvolsChain(foundPokemon.id);
-      const dumpArray = [];
-      for (let i = chainData.length - 1; i >= 0; i--) {
-        const pokemon = await getPokemon(chainData[i].species.name);
-        dumpArray.push({
-          pokemon,
-          evolution_details: chainData[i].evolution_details,
-        });
-      }
-      dispatch({
-        type: ActionTypes.GET_EVOLS_CHAIN,
-        payload: { chainData: dumpArray },
+    const isPokemonInChain = state.pokemons.evolChains.find(
+      (val) => val.pokemon.name == foundPokemon.name
+    );
+    // if you select pokemon in chain, no need to find that pokemon chain
+    if (isPokemonInChain) return;
+    const chainData = await getEvolsChain(foundPokemon.id);
+    const dumpArray = [];
+    for (let i = chainData.length - 1; i >= 0; i--) {
+      const pokemon = await getPokemon(chainData[i].species.name);
+      dumpArray.push({
+        pokemon,
+        evolution_details: chainData[i].evolution_details,
       });
     }
+    dispatch({
+      type: ActionTypes.GET_EVOLS_CHAIN,
+      payload: { chainData: dumpArray },
+    });
   };
 }
 
@@ -147,7 +135,6 @@ async function getEvolsChain(id) {
     const { data: chain } = evolChain;
     const chainData = await getChainData(chain.chain);
     return chainData;
-    // dispatch({ type: ActionTypes.GET_EVOLS_CHAIN, payload: { chainData } });
   } catch (error) {
     console.log(error);
   }

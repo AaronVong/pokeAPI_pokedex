@@ -24,5 +24,10 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /(text|bg|from|to)-.+/,
+    },
+  ],
   plugins: [],
 };

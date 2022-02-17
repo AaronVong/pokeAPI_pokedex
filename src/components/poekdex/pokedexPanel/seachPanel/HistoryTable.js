@@ -45,7 +45,7 @@ export default function HistoryTable(props) {
   return (
     <div className="md:w-full h-[300px] flex flex-col">
       <div className="h-auto">
-        <h5 className="py-2 text-center font-semibold">History</h5>
+        <h5 className="py-2 text-center font-semibold">Searching History</h5>
       </div>
       <div className="bg-white flex flex-col rounded-xl items-center gap-2 overflow-y-scroll h-full py-2">
         {items}
