@@ -1,4 +1,6 @@
 # Getting Started with Create React App
+Get the API from PokeApi https://pokeapi.co/docs/v2
+Create .env file and variable REACT_APP_API = {api link}
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
