@@ -1,3 +1,6 @@
+---
+permalink: /index.html
+---
 # Getting Started with Create React App
 Get the API from PokeApi https://pokeapi.co/docs/v2
 Create .env file and variable REACT_APP_API = {api link}
