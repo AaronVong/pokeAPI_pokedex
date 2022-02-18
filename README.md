@@ -1,10 +1,7 @@
----
-permalink: /public/index.html
----
-# Getting Started with Create React App
-Get the API from PokeApi https://pokeapi.co/docs/v2
-Create .env file and variable REACT_APP_API = {api link}
 
+# Getting Started with Create React App
+Preview: https://AaronVong.github.io/pokeAPI_pokedex
+Get the API from PokeApi https://pokeapi.co/docs/v2
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
