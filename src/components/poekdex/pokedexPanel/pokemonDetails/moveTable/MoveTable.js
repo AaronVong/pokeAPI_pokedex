@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import TableRow from "./TableRow";
 export default function MoveTable(props) {
   const { curPage, start, end } = props;
-  const pokemonMoves = useSelector(
-    (state) => state.pokemons.pokemonDetail_moves
-  );
+  const pokemonMoves = useSelector((state) => {
+    if (props.initData) {
+      return props.initData;
+    }
+    return state.pokemons.pokemonDetail_moves;
+  });
   const moves = pokemonMoves.slice(start, end).map((move) => {
     return <TableRow move={move} key={move.id} />;
   });

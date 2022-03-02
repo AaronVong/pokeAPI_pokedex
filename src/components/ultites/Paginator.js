@@ -1,14 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
-/**
- * phần đầu luôn có 2 node 1,2
- * phần next page luôn có 5 node
- * khi click node cuối của phần giữa luôn render ra 2 node tiếp theo và loại bỏ 2 node đầu cũ của phần giữa
- * ví dụ: Ban  đầu cho 5 là data-last
- * Click 5 -> render 2 node mới 6,7
- * đồng thời remove data-last và cho node 7 là data-last
- * khi click node 7 làm tương tự như với node 5 nhưng thêm phần đầu
- */
 function Dots() {
   return (
     <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
@@ -58,6 +49,9 @@ export default function Paginator(props) {
           </button>
         </nav>
       </div>
+      <i>
+        {props.curPage} of {props.pages} pages
+      </i>
     </div>
   );
 }

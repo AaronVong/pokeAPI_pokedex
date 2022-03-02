@@ -1,3 +1,5 @@
 1. fix Logic để hiện thị condition để evolves
-2. thay đổi logic của getChainData (helperFunctions), khi evolves_to có nhiều hơn 1 phần tử (Fixed)
+2. thay đổi logic của getChainData (helperFunctions), khi evolves_to có nhiều hơn 1 phần tử (Updated)
 3. Thay đổi logic hiện thị (expected hiện thị nhánh) khi pokemon có nhiều cấp tiến hóa tùy theo condition nhất định (ví dụ eevee)
+4. update pagination, hiện thêm nhiều page
+
