@@ -10,6 +10,7 @@ const initState = {
   searching: false,
   pokemonDetail: null,
   evolChains: [],
+  pokemonDetail_moves: [],
 };
 
 /**
@@ -72,6 +73,12 @@ export default function pokemonReducer(state = initState, action) {
         ...state,
         evolChains: [...action.payload.chainData],
       };
+    case ActionTypes.GET_MOVES_INFO: {
+      return {
+        ...state,
+        pokemonDetail_moves: [...action.payload],
+      };
+    }
     default:
       return {
         ...state,

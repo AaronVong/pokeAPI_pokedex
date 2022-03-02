@@ -109,6 +109,7 @@ export function getPokemonDetail(id) {
     );
     // if you select pokemon in chain, no need to find that pokemon chain
     if (isPokemonInChain) return;
+    // get pokemon chain
     const chainData = await getEvolsChain(foundPokemon.id);
     const dumpArray = [];
     for (let i = chainData.length - 1; i >= 0; i--) {
@@ -122,6 +123,9 @@ export function getPokemonDetail(id) {
       type: ActionTypes.GET_EVOLS_CHAIN,
       payload: { chainData: dumpArray },
     });
+    // get pokemon moves list
+    const pokemonDetail_move = await getMovesInfo(foundPokemon.moves);
+    dispatch({ type: ActionTypes.GET_MOVES_INFO, payload: pokemonDetail_move });
   };
 }
 
@@ -139,4 +143,19 @@ async function getEvolsChain(id) {
     console.log(error);
   }
   return [];
+}
+
+export async function getMovesInfo(moves) {
+  try {
+    const pokemonDetail_move = await Promise.all(
+      moves.map(async (move, index) => {
+        const res = await axios.get(move.move.url);
+        const { data } = res;
+        return data;
+      })
+    );
+    return pokemonDetail_move;
+  } catch (error) {
+    console.log(error);
+  }
 }

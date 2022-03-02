@@ -9,6 +9,8 @@ export default function PokeCardCmd(props) {
   const handleClick = (e) => {
     const id = e.currentTarget.value;
     dispatch(getPokemonDetail(id));
+    const pokemonDetailBlock = document.getElementById("pokemon_details");
+    pokemonDetailBlock.scrollIntoView(false);
   };
   return (
     <div className="py-1">

@@ -26,7 +26,7 @@ module.exports = {
   },
   safelist: [
     {
-      pattern: /(text|bg|from|to)-.+/,
+      pattern: /(text|bg|from|to|w)-.+/,
     },
   ],
   plugins: [],

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PokeEvols from "./pokemonDetails/PokeEvols";
 import NotFound from "../../ultites/NotFound";
 import Image from "../../ultites/Image";
+import PokeMoves from "./pokemonDetails/PokeMoves";
 const TabName = {
   STATS: "STATUS",
   MOVES: "MOVES",
@@ -18,16 +19,21 @@ class RightSide extends React.Component {
     super(props);
     this.state = {
       tabName: TabName.STATS,
+      rememberPage: null,
     };
   }
 
   componentDidUpdate(preProps, preState) {
     if (this.props.pokemonDetail == null || preProps.pokemonDetail == null)
       return;
+    // if choose pokemon detail change tab to STATS and set rememberPage = null
     if (preProps.pokemonDetail.id != this.props.pokemonDetail.id) {
-      this.setState({ tabName: TabName.STATS });
+      this.setState({ tabName: TabName.STATS, rememberPage: null });
     }
   }
+  setPage = (page) => {
+    this.setState({ rememberPage: page });
+  };
   tabsSwitch = (e) => {
     const tabName = e.currentTarget.name;
     if (!this.props.pokemonDetail && tabName != TabName.WEAK_STRONG) return;
@@ -43,7 +49,9 @@ class RightSide extends React.Component {
         case TabName.LOCATION:
           return <NotFound />;
         case TabName.MOVES:
-          return <NotFound />;
+          return (
+            <PokeMoves page={this.state.rememberPage} setPage={this.setPage} />
+          );
         case TabName.WEAK_STRONG:
           return (
             <div className="w-full flex flex-col justify-center items-center gap-2 py-1">
@@ -73,7 +81,7 @@ class RightSide extends React.Component {
             activeTab={this.state.tabName}
           />
         </TabNameContext.Provider>
-        <div className="w-full">
+        <div className="w-full" id="pokemon_details">
           {this.props.pokemonDetail || this.state.tabName == TabName.WEAK_STRONG
             ? tab()
             : ""}

@@ -13,7 +13,7 @@ export default function PokeStats(props) {
     return <StatDisplay data={stat} key={index} heighest={heighestBaseStat} />;
   });
   return (
-    <div className="flex flex-col lg:flex-row gap-2 p-1">
+    <div className="flex flex-col items-center lg:flex-row gap-2 p-1">
       <DisableCmdContext.Provider value={true}>
         <PokeCard data={pokemon} />
       </DisableCmdContext.Provider>
