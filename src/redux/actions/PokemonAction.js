@@ -29,8 +29,10 @@ export function fetchPokemonList(
   }
   return async function (dispatch) {
     try {
+      // fetch resources (containt pokemon)
       const resourceResponse = await fetch(resourceApi);
       const resource = await resourceResponse.json();
+      // fetch each resource for a pokemon
       let pokemonList = await Promise.all(
         resource.results.map(async (value) => {
           const pokemonResponse = await fetch(value.url);

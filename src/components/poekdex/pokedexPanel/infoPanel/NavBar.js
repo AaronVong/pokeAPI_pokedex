@@ -23,7 +23,7 @@ export default function NavBar(props) {
   const activeTabStyle = "text-black";
   return (
     <div className="w-full">
-      <nav className="w-full h-full flex justify-around items-center gap-3 relative bg-sky-600">
+      <nav className="w-full h-full flex justify-around items-center gap-3 relative bg-sky-600 text-lg">
         <button
           type="button"
           className="py-1 px-2 hover:bg-gray-500 md:hidden"

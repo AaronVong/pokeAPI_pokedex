@@ -5,7 +5,7 @@ import PokeCard from "../../../pokeCard/PokeCard";
 export default function PokeEvols(props) {
   const evolvesChain = useSelector((state) => state.pokemons.evolChains);
   const customStyle =
-    "w-4/5 min-h-content max-h-content p-1 sm:w-3/5 md:w-2/4 lg:basis-3/5 xl:basis-1/4";
+    "w-2/5 min-h-content max-h-content p-1 md:w-1/5 lg:basis-2/5 xl:basis-1/4";
   const evolvesList = evolvesChain.map((pokemon, index) => {
     if (pokemon.evolution_details.length <= 0) {
       return (
@@ -28,7 +28,7 @@ export default function PokeEvols(props) {
     }
   });
   return (
-    <div className="w-full py-3 flex flex-col items-center justify-around lg:flex-row lg:justify-evenly lg:items-center xl:flex-wrap">
+    <div className="w-full py-3 flex flex-col items-center justify-around md:flex-row lg:justify-evenly lg:items-center xl:flex-wrap">
       {evolvesList}
     </div>
   );

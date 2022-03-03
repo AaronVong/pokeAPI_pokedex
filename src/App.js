@@ -7,12 +7,9 @@ import HrTag from "./components/ultites/HrTag";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loadingResources: false,
-    };
   }
   componentDidMount() {
-    this.props.fetchPokemonList(null, { offset: 0, limit: 6 });
+    // this.props.fetchPokemonList(null, { offset: 0, limit: 6 });
   }
 
   render() {

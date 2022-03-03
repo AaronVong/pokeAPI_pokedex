@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Paginator from "../../../ultites/Paginator";
 import MoveTable from "./moveTable/MoveTable";
 import ErrorMessage from "../../../ultites/ErrorMessage";
 import axios from "axios";
+import Pagination from "../../../ultites/pagination/Pagination";
+import Image from "../../../ultites/Image";
 export default function PokeMoves(props) {
   const PER_PAGE = 4;
+  // if curPage = 0  => reset pagination
   const [curPage, setCurPage] = useState(1);
   const [movesFound, setMovesFound] = useState(null);
   const [searchBy, setSearchBy] = useState("name");
@@ -17,10 +19,6 @@ export default function PokeMoves(props) {
   const endIndex = PER_PAGE * curPage;
   const startIndex = endIndex - PER_PAGE;
   useEffect(() => {
-    if (props.page) {
-      setCurPage(props.page);
-    }
-
     setPages(Math.ceil(moves.length / PER_PAGE));
 
     const getTypeList = async () => {
@@ -41,16 +39,6 @@ export default function PokeMoves(props) {
     setErrorMessage(null);
     setSearchKey(e.target.value);
   };
-  const handleNextClick = () => {
-    if (curPage >= pages) return;
-    setCurPage(curPage + 1);
-    props.setPage(curPage + 1);
-  };
-  const handlePrevClick = () => {
-    if (curPage <= 1) return;
-    setCurPage(curPage - 1);
-    props.setPage(curPage - 1);
-  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -67,7 +55,7 @@ export default function PokeMoves(props) {
     });
     if (found.length > 0) {
       setMovesFound(found);
-      setCurPage(1);
+      setCurPage(0);
     } else {
       setErrorMessage("Not found!");
     }
@@ -92,6 +80,9 @@ export default function PokeMoves(props) {
   };
   return (
     <div>
+      <div className="w-36 mx-auto">
+        <Image url={props.imageSrc} />
+      </div>
       <form
         className="w-full px-1 py-2 flex flex-wrap gap-1"
         onSubmit={handleSearch}
@@ -155,12 +146,7 @@ export default function PokeMoves(props) {
         }
       </form>
       <MoveTable start={startIndex} end={endIndex} initData={movesFound} />
-      <Paginator
-        curPage={curPage}
-        handleNextClick={handleNextClick}
-        handlePrevClick={handlePrevClick}
-        pages={pages}
-      />
+      <Pagination totalPage={pages} setCurPage={setCurPage} curPage={curPage} />
     </div>
   );
 }

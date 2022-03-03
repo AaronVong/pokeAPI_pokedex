@@ -43,7 +43,7 @@ export default function HistoryTable(props) {
   }
 
   return (
-    <div className="md:w-full h-[300px] flex flex-col">
+    <div className="w-full h-[300px] flex flex-col">
       <div className="h-auto">
         <h5 className="py-2 text-center font-semibold">Searching History</h5>
       </div>

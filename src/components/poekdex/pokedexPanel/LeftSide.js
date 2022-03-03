@@ -7,7 +7,7 @@ export default class LeftSide extends React.Component {
   }
   render() {
     return (
-      <div className="w-full h-full p-2 cols-span-1 flex flex-col gap-2 md:flex-row">
+      <div className="w-full h-full p-2 cols-span-1 flex gap-2 md:flex-row">
         {/* Seacrhing */}
         <SearchPanel />
         <HistoryTable />

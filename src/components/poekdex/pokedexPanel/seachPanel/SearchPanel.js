@@ -62,7 +62,7 @@ export default function SearchPanel(props) {
         error && <ErrorMessage message={searchError} />
       }
       {/* Display Result */}
-      <div className="w-auto h-auto">
+      <div className="w-auto h-auto flex justify-center items-center">
         {!pokemon || searching ? "" : <PokeCard data={pokemon} />}
       </div>
     </div>

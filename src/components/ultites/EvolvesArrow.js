@@ -3,8 +3,8 @@ import { ArrowRightIcon, ArrowDownIcon } from "@heroicons/react/solid";
 export default function EvolvesArrow(props) {
   return (
     <div className="flex justify-center items-center md:flex-col shrink col-span-1">
-      <ArrowDownIcon className="w-5 h-5 lg:hidden order-2" />
-      <ArrowRightIcon className="w-5 h-5 hidden lg:block order-2" />
+      <ArrowDownIcon className="w-5 h-5 md:hidden order-2" />
+      <ArrowRightIcon className="w-5 h-5 hidden md:block order-2" />
       <span className="text-lg md:text-sm lg:text-base text-center order-1">
         {props.condition}
       </span>

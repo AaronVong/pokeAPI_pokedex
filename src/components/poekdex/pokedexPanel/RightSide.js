@@ -19,7 +19,6 @@ class RightSide extends React.Component {
     super(props);
     this.state = {
       tabName: TabName.STATS,
-      rememberPage: null,
     };
   }
 
@@ -31,9 +30,6 @@ class RightSide extends React.Component {
       this.setState({ tabName: TabName.STATS, rememberPage: null });
     }
   }
-  setPage = (page) => {
-    this.setState({ rememberPage: page });
-  };
   tabsSwitch = (e) => {
     const tabName = e.currentTarget.name;
     if (!this.props.pokemonDetail && tabName != TabName.WEAK_STRONG) return;
@@ -50,7 +46,13 @@ class RightSide extends React.Component {
           return <NotFound />;
         case TabName.MOVES:
           return (
-            <PokeMoves page={this.state.rememberPage} setPage={this.setPage} />
+            <PokeMoves
+              imageSrc={
+                this.props.pokemonDetail.sprites.other["official-artwork"][
+                  "front_default"
+                ]
+              }
+            />
           );
         case TabName.WEAK_STRONG:
           return (
@@ -74,7 +76,7 @@ class RightSide extends React.Component {
       }
     };
     return (
-      <div className="w-full bg-white">
+      <div className="w-full bg-white col-span-2">
         <TabNameContext.Provider value={TabName}>
           <NavBar
             handleTabSwitch={this.tabsSwitch}
