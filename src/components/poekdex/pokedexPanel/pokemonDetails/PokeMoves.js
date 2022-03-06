@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MoveTable from "./moveTable/MoveTable";
 import ErrorMessage from "../../../ultites/ErrorMessage";
-import axios from "axios";
 import Pagination from "../../../ultites/pagination/Pagination";
 import Image from "../../../ultites/Image";
 export default function PokeMoves(props) {
@@ -11,23 +10,23 @@ export default function PokeMoves(props) {
   const [curPage, setCurPage] = useState(1);
   const [movesFound, setMovesFound] = useState(null);
   const [searchBy, setSearchBy] = useState("name");
-  const [typeList, setTypeList] = useState([]);
   const [searchKey, setSearchKey] = useState("");
+  const pokemonDetail = useSelector((state) => state.pokemons.pokemonDetail);
   const moves = useSelector((state) => state.pokemons.pokemonDetail_moves);
+  const types = useSelector((state) => state.pokemons.types);
   const [errorMessage, setErrorMessage] = useState(null);
   const [pages, setPages] = useState(0);
+  const prevPokemonId = useRef(pokemonDetail.id);
+
   const endIndex = PER_PAGE * curPage;
   const startIndex = endIndex - PER_PAGE;
   useEffect(() => {
+    if (pokemonDetail.id !== prevPokemonId.current) {
+      setCurPage(0);
+      prevPokemonId.current = pokemonDetail.id;
+    }
     setPages(Math.ceil(moves.length / PER_PAGE));
-
-    const getTypeList = async () => {
-      const rs = await axios.get("https://pokeapi.co/api/v2/type");
-      const { data } = rs;
-      setTypeList(data.results);
-    };
-    getTypeList();
-  }, [moves]);
+  }, [pokemonDetail]);
 
   const handleOnChangeSearchBy = (e) => {
     const value = e.target.value;
@@ -62,7 +61,7 @@ export default function PokeMoves(props) {
     setPages(Math.ceil(found.length / PER_PAGE));
   };
 
-  const renderTypeList = typeList.map((type, index) => {
+  const renderTypeList = types.map((type, index) => {
     return (
       <option key={type.name} value={type.name} className="capitalize">
         {type.name}

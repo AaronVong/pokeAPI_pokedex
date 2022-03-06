@@ -6,6 +6,7 @@ import PokeEvols from "./pokemonDetails/PokeEvols";
 import NotFound from "../../ultites/NotFound";
 import Image from "../../ultites/Image";
 import PokeMoves from "./pokemonDetails/PokeMoves";
+import Encounter from "./pokemonDetails/encounter/Encounter";
 const TabName = {
   STATS: "STATUS",
   MOVES: "MOVES",
@@ -25,9 +26,12 @@ class RightSide extends React.Component {
   componentDidUpdate(preProps, preState) {
     if (this.props.pokemonDetail == null || preProps.pokemonDetail == null)
       return;
-    // if choose pokemon detail change tab to STATS and set rememberPage = null
-    if (preProps.pokemonDetail.id != this.props.pokemonDetail.id) {
-      this.setState({ tabName: TabName.STATS, rememberPage: null });
+    // if choose other pokemon detail, change tab to STATS
+    if (
+      preProps.pokemonDetail.id != this.props.pokemonDetail.id &&
+      this.state.tabName == TabName.EVOLS
+    ) {
+      this.setState({ tabName: TabName.STATS });
     }
   }
   tabsSwitch = (e) => {
@@ -43,7 +47,7 @@ class RightSide extends React.Component {
         case TabName.EVOLS:
           return <PokeEvols />;
         case TabName.LOCATION:
-          return <NotFound />;
+          return <Encounter />;
         case TabName.MOVES:
           return (
             <PokeMoves

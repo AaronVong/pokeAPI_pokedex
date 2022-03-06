@@ -2,15 +2,18 @@ import ActionTypes from "../ActionTypes";
 const initState = {
   resource: {},
   pokemonList: [],
-  pokemon: null,
+  pokemon: null, // found pokemon with search
   searchHistory: {},
   error: false,
   searchError: null,
   fetchError: null,
   searching: false,
-  pokemonDetail: null,
+  pokemonDetail: null, // pokemon detail
   evolChains: [],
   pokemonDetail_moves: [],
+  moveLoading: false,
+  types: [],
+  encounters: [],
 };
 
 /**
@@ -77,6 +80,24 @@ export default function pokemonReducer(state = initState, action) {
       return {
         ...state,
         pokemonDetail_moves: [...action.payload],
+      };
+    }
+    case ActionTypes.GET_POKEMON_TYPES: {
+      return {
+        ...state,
+        types: action.payload,
+      };
+    }
+    case ActionTypes.MOVES_LOADING: {
+      return {
+        ...state,
+        moveLoading: action.payload,
+      };
+    }
+    case ActionTypes.GET_ENCOUNTER_DETAILS: {
+      return {
+        ...state,
+        encounters: action.payload,
       };
     }
     default:

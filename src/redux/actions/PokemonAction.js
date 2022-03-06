@@ -103,8 +103,20 @@ export function getPokemonDetail(id) {
     const state = getState();
     let foundPokemon = await getPokemon(id);
     dispatch({
+      type: ActionTypes.MOVES_LOADING,
+      payload: true,
+    });
+    const pokemonDetail_move = await getMovesInfo(foundPokemon.moves);
+    dispatch({
       type: ActionTypes.GET_POKEMON_DETAILS,
       payload: { pokemon: foundPokemon },
+    });
+
+    // get pokemon moves list
+    dispatch({ type: ActionTypes.GET_MOVES_INFO, payload: pokemonDetail_move });
+    dispatch({
+      type: ActionTypes.MOVES_LOADING,
+      payload: false,
     });
     const isPokemonInChain = state.pokemons.evolChains.find(
       (val) => val.pokemon.name == foundPokemon.name
@@ -112,10 +124,11 @@ export function getPokemonDetail(id) {
     // if you select pokemon in chain, no need to find that pokemon chain
     if (isPokemonInChain) return;
     // get pokemon chain
-    const chainData = await getEvolsChain(foundPokemon.id);
+    const chainData = await getEvolsChain(foundPokemon.species.url);
     const dumpArray = [];
     for (let i = chainData.length - 1; i >= 0; i--) {
-      const pokemon = await getPokemon(chainData[i].species.name);
+      const specie = await axios.get(chainData[i].species.url);
+      const pokemon = await getPokemon(specie.data.id);
       dumpArray.push({
         pokemon,
         evolution_details: chainData[i].evolution_details,
@@ -125,17 +138,12 @@ export function getPokemonDetail(id) {
       type: ActionTypes.GET_EVOLS_CHAIN,
       payload: { chainData: dumpArray },
     });
-    // get pokemon moves list
-    const pokemonDetail_move = await getMovesInfo(foundPokemon.moves);
-    dispatch({ type: ActionTypes.GET_MOVES_INFO, payload: pokemonDetail_move });
   };
 }
 
-async function getEvolsChain(id) {
+async function getEvolsChain(url) {
   try {
-    const response = await axios(
-      `${process.env.REACT_APP_API}pokemon-species/${id}`
-    );
+    const response = await axios(url);
     const { data: species } = response;
     const evolChain = await axios(species["evolution_chain"].url);
     const { data: chain } = evolChain;
@@ -160,4 +168,20 @@ export async function getMovesInfo(moves) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export function getEncounterDetails() {
+  return async function (dispatch, getState) {
+    const pokemon = getState().pokemons.pokemonDetail;
+    const res = await axios.get(pokemon["location_area_encounters"]);
+    const { data } = res;
+    dispatch({ type: ActionTypes.GET_ENCOUNTER_DETAILS, payload: data });
+  };
+}
+export function getPokemonTypes() {
+  return async function (dispatch) {
+    const res = await axios.get(process.env.REACT_APP_API + "type");
+    const { data } = res;
+    dispatch({ type: ActionTypes.GET_POKEMON_TYPES, payload: data.results });
+  };
 }

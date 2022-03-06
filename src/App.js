@@ -1,7 +1,7 @@
 import React from "react";
 import Pokedex from "./components/poekdex/Pokedex";
 import PokedexPanel from "./components/poekdex/pokedexPanel/PokedexPanel";
-import { fetchPokemonList } from "./redux/actions/PokemonAction";
+import { getPokemonTypes } from "./redux/actions/PokemonAction";
 import { connect } from "react-redux";
 import HrTag from "./components/ultites/HrTag";
 class App extends React.Component {
@@ -9,7 +9,7 @@ class App extends React.Component {
     super(props);
   }
   componentDidMount() {
-    // this.props.fetchPokemonList(null, { offset: 0, limit: 6 });
+    this.props.getPokemonTypes();
   }
 
   render() {
@@ -36,4 +36,4 @@ const mapStateToProps = (state) => ({
   pokemons: state.pokemons.pokemonList,
   pokemonResources: state.pokemons.resource,
 });
-export default connect(mapStateToProps, { fetchPokemonList })(App);
+export default connect(mapStateToProps, { getPokemonTypes })(App);

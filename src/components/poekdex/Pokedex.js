@@ -30,7 +30,7 @@ class Pokedex extends React.Component {
             <LoadingCircle
               strokeColor="stroke-black"
               textColor="text-black"
-              tailwindClasses="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg"
+              tailwindClasses="z-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg"
             />
           </React.Fragment>
         )}

@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import TableRow from "./TableRow";
+import LoadingCircle from "../../../../ultites/LoadingCircle";
 export default function MoveTable(props) {
+  const loading = useSelector((state) => state.pokemons.moveLoading);
   const { curPage, start, end } = props;
   const pokemonMoves = useSelector((state) => {
     if (props.initData) {
@@ -21,7 +22,22 @@ export default function MoveTable(props) {
           <th className="border">Type</th>
         </tr>
       </thead>
-      <tbody className="border">{moves}</tbody>
+      <tbody className="border">
+        {loading ? (
+          <LoadingCircle />
+        ) : pokemonMoves.length == 0 ? (
+          <tr className="border">
+            <td
+              className="border text-center font-semibold text-lg"
+              colSpan={3}
+            >
+              Empty
+            </td>
+          </tr>
+        ) : (
+          moves
+        )}
+      </tbody>
     </table>
   );
 }

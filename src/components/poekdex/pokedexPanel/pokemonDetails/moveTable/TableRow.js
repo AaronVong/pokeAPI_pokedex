@@ -55,41 +55,47 @@ export default function TableRow({ move }) {
         <tr className="bg-gray-200">
           <td colSpan={3} className="p-2">
             <div ref={contentBox}>
-              {move.effect_entries.map((entry, index) => (
+              {move.effect_entries.length <= 0 ? (
                 <div>
-                  {showDetail ? (
-                    <Fragment>
-                      <p key={index}>
-                        {entry.effect.replace(
-                          "$effect_chance",
-                          move.effect_chance
-                        )}
-                      </p>
-                      <button
-                        onClick={toggleShowDetail}
-                        className="underline text-sky-500 hover:text-sky-600 text-sm"
-                      >
-                        Short
-                      </button>
-                    </Fragment>
-                  ) : (
-                    <Fragment>
-                      <p>
-                        {entry.short_effect.replace(
-                          "$effect_chance",
-                          move.effect_chance
-                        )}
-                      </p>
-                      <button
-                        onClick={toggleShowDetail}
-                        className="underline text-sky-500 hover:text-sky-600 text-sm"
-                      >
-                        Detail
-                      </button>
-                    </Fragment>
-                  )}
+                  <p>No describe</p>
                 </div>
-              ))}
+              ) : (
+                move.effect_entries.map((entry, index) => (
+                  <div>
+                    {showDetail ? (
+                      <Fragment>
+                        <p key={index}>
+                          {entry.effect.replace(
+                            "$effect_chance",
+                            move.effect_chance
+                          )}
+                        </p>
+                        <button
+                          onClick={toggleShowDetail}
+                          className="underline text-sky-500 hover:text-sky-600 text-sm"
+                        >
+                          Short
+                        </button>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <p>
+                          {entry.short_effect.replace(
+                            "$effect_chance",
+                            move.effect_chance
+                          )}
+                        </p>
+                        <button
+                          onClick={toggleShowDetail}
+                          className="underline text-sky-500 hover:text-sky-600 text-sm"
+                        >
+                          Detail
+                        </button>
+                      </Fragment>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           </td>
         </tr>
